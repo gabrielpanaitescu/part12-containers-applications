@@ -1,7 +1,9 @@
-import axios from 'axios'
+import axios from "axios";
 
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URL,
-})
+});
 
-export default apiClient
+console.log("import.meta.env", import.meta.env);
+
+export default apiClient;

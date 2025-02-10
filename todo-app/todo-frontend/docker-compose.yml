@@ -1,0 +1,7 @@
+services:
+  frontend:
+    image: todo-frontend-nginx
+    container_name: todo-frontend-nginx-container
+    build: .
+    ports:
+      - 8080:80
