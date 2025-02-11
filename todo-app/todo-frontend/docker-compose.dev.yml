@@ -1,0 +1,11 @@
+services:
+  app:
+    image: todo-front-dev
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    container_name: todo-front-dev-container
+    ports:
+      - 5173:5173
+    volumes:
+      - ./:/usr/src/app
