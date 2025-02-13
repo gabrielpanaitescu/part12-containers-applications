@@ -11,7 +11,8 @@ RUN npm run test
 
 FROM test AS prod
 COPY --from=test /usr/src/app /usr/src/app
-ENV VITE_BACKEND_URL=http://localhost:3000
+ARG VITE_BACKEND_URL
+ENV VITE_BACKEND_URL=${VITE_BACKEND_URL}
 RUN npm run build
 
 FROM nginx:1.25-alpine

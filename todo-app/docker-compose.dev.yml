@@ -1,5 +1,5 @@
 services:
-  mongo:
+  mongo-dev:
     image: mongo
     ports:
       - 3456:27017
@@ -9,15 +9,15 @@ services:
       MONGO_INITDB_DATABASE: the_database
     volumes:
       - ./todo-backend/mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
-      - mongo_data:/data/db
-  redis:
+      - mongo_data_dev:/data/db
+  redis-dev:
     image: redis
     ports:
       - 7891:6379
     command: ["redis-server", "--appendonly", "yes"]
     volumes:
-      - ./todo-backend/redis_data:/data
-  backend:
+      - ./todo-backend/redis_data_dev:/data
+  backend-dev:
     image: todo-backend-dev
     container_name: todo-backend-dev
     build:
@@ -28,31 +28,31 @@ services:
     volumes:
       - ./todo-backend/:/usr/src/app
     environment:
-      - MONGO_URL=mongodb://the_username:the_password@mongo:27017/the_database
-      - REDIS_URL=redis://redis:6379
-  frontend:
+      - MONGO_URL=mongodb://the_username:the_password@mongo-dev:27017/the_database
+      - REDIS_URL=redis://redis-dev:6379
+  frontend-dev:
     image: todo-front-dev
+    container_name: todo-front-dev
     build:
       context: ./todo-frontend
       dockerfile: dev.Dockerfile
-    container_name: todo-front-dev
     volumes:
       - ./todo-frontend/:/usr/src/app
     # ports:
     #   - 5173:5173
     environment:
       - VITE_BACKEND_URL=http://localhost:8080/api
-  nginx:
+  reverse-proxy-dev:
     image: nginx:1.20.1
+    container_name: reverse-proxy
     volumes:
       - ./nginx.dev.conf:/etc/nginx/nginx.conf:ro
     ports:
       # only exposed port that can be reached from outside of container
       - 8080:80
-    container_name: reverse-proxy
     depends_on:
-      - frontend
-      - backend
+      - frontend-dev
+      - backend-dev
 
 volumes:
-  mongo_data:
+  mongo_data_dev:
