@@ -1,4 +1,5 @@
 ./redis_data
+./redis_data_dev
 
 # Logs
 logs
