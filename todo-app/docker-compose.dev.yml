@@ -30,6 +30,10 @@ services:
     environment:
       - MONGO_URL=mongodb://the_username:the_password@mongo-dev:27017/the_database
       - REDIS_URL=redis://redis-dev:6379
+    depends-on:
+      - redis-dev
+      - mongo-dev
+
   frontend-dev:
     image: todo-front-dev
     container_name: todo-front-dev
